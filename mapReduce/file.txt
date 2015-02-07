@@ -1,0 +1,1 @@
+this is a super simple file with just a bunch of words in it, which I can now use for my lab.  I wonder how strict they will be. This should be pretty freaking easy after the stopword filtering and everything that I have had to do for my information systems class.  I am so excited for date night tonight, so I can just relax and not have any more homework to do!

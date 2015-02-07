@@ -1,0 +1,36 @@
+if user
+ form(method='post' action='/login')
+   input(name="_method", type="hidden", value="DELETE")
+   p Hello #{user.username}! 
+    a(href='javascript:', onClick='forms[0].submit()') [logout]
+
+else 
+  p Please log in
+  form(method='post' action='/login')
+    fieldset
+      legend Login
+      p
+        label(for="user[username]") Username:
+        input(name="user[username]")
+          
+      input(type="submit")
+  br
+  p Or register
+  form(method='post' action='/register')
+    fieldset
+      legend Register
+      p
+        label(for="newuser[name]") Name:
+        input(name="newuser[name]")
+      p
+        label(for="newuser[username]") Username:
+        input(name="newuser[username]")
+      p
+        label(for="newuser[email]") Email:
+        input(type="email" name="newuser[email]")
+      p
+        label(for="newuser[fsqusername]") Foursquare username:
+        input(name="newuser[fsqusername]")
+
+      input(type="submit")
+
