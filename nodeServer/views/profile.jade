@@ -4,6 +4,7 @@ block content
   h1= title
   p Welcome to #{title}
   br
+  h4 Click on a username to view their profile:
   ul
     each profile in users
       li
@@ -13,17 +14,19 @@ block content
     if profile.username == pathUsername
       if user
         if profile.username == user.username
-          p Your Profile Details: #{user.username}
-            ul
-              p Name: #{user.name}
-              p Username: #{user.username}
-              p Email: #{user.email}
-              p Foursquare Username: #{user.fsqusername}
+          h3 Your Profile Details: #{user.username}
+          ul
+            li Name: #{profile.name}
+            li Username: #{profile.username}
+            li Email: #{profile.email}
+            li Foursquare Username: #{profile.fsqusername}
         else
-          p Basic profile for #{profile.username}
-          p Name: #{profile.username}
+          h3 Basic profile for #{profile.username}
+          ul
+            li Name: #{profile.username}
       else
-        p Basic profile for #{profile.username}
-        p Name: #{profile.username}
+        h3 Basic profile for #{profile.username}
+        ul
+          li Name: #{profile.username}
   br
   include login
