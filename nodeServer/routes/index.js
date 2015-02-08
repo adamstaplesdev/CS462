@@ -33,19 +33,30 @@ router.route('/login')
 
 router.route('/register')
   .post(function register(req, res) {
+    var newuser = req.body.user;
+    console.log(req.body.user);
     console.log('registering new user');
-      var db = JSON.parse(fs.readFileSync(__dirname + '/profiles.js'));
-      db.users.push(newuser);
-      req.session.user = {
-        username: newuser.username
-      }
-      fs.writeFile(dirname + '/profiles.js', JSON.stringify(db));
-      console.log('users in system:');
-      var users = db.users;
-      for(var i = 0; i < users.length; i++){
-        console.log(users[i].name);
-      };
+    var db = JSON.parse(fs.readFileSync(__dirname + '/profiles.js'));
+    db.users.push(newuser);
+    req.session.user = {
+      username: newuser.username
+    }
+    fs.writeFileSync(__dirname + '/profiles.js', JSON.stringify(db));
+    console.log('users in system:');
+    var users = db.users;
+    for(var i = 0; i < users.length; i++){
+      console.log(users[i].name);
+    };
     index(req, res);
+  });
+
+router.route('/:username')
+  .get(function profile(req, res){
+    console.log(req.params.username);
+    res.render('profile', { title: 'Adam Staples 4Square App',
+                        pathUsername: req.params.username,
+                        user: req.session.user,
+                        users: JSON.parse(fs.readFileSync(__dirname + '/profiles.js')).users});
   });
 
 

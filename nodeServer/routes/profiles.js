@@ -1,7 +1,1 @@
-{
-	"users" : [{"name" : "Adam Staples",
-				"username" : "paperclip27",
-				"email" : "bent.paperclip27@outlook.com",
-				"fsqusername" : "bentpaperclip" }
-			]
-}
+{"users":[{"name":"Adam Staples","username":"paperclip27","email":"bent.paperclip27@outlook.com","fsqusername":"bentpaperclip"},{"name":"epona","username":"epona","email":"epona@epona.gov","fsqusername":"epona"}]}

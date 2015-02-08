@@ -1,7 +1,7 @@
 if user
  form(method='post' action='/login')
    input(name="_method", type="hidden", value="DELETE")
-   p Hello #{user.username}! 
+   p #{user.username} is currently logged in.
     a(href='javascript:', onClick='forms[0].submit()') [logout]
 
 else 
@@ -20,17 +20,17 @@ else
     fieldset
       legend Register
       p
-        label(for="newuser[name]") Name:
-        input(name="newuser[name]")
+        label(for="user[name]") Name:
+        input(name="user[name]")
       p
-        label(for="newuser[username]") Username:
-        input(name="newuser[username]")
+        label(for="user[username]") Username:
+        input(name="user[username]")
       p
-        label(for="newuser[email]") Email:
-        input(type="email" name="newuser[email]")
+        label(for="user[email]") Email:
+        input(type="email" name="user[email]")
       p
-        label(for="newuser[fsqusername]") Foursquare username:
-        input(name="newuser[fsqusername]")
+        label(for="user[fsqusername]") Foursquare username:
+        input(name="user[fsqusername]")
 
       input(type="submit")
 

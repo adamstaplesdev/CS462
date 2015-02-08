@@ -1,0 +1,29 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to #{title}
+  br
+  ul
+    each profile in users
+      li
+        a(href='/'+profile.username)= profile.username
+  br
+  each profile in users
+    if profile.username == pathUsername
+      if user
+        if profile.username == user.username
+          p Your Profile Details: #{user.username}
+            ul
+              p Name: #{user.name}
+              p Username: #{user.username}
+              p Email: #{user.email}
+              p Foursquare Username: #{user.fsqusername}
+        else
+          p Basic profile for #{profile.username}
+          p Name: #{profile.username}
+      else
+        p Basic profile for #{profile.username}
+        p Name: #{profile.username}
+  br
+  include login

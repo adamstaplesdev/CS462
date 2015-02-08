@@ -4,11 +4,9 @@ block content
   h1= title
   p Welcome to #{title}
   br
-  a(href='/users') see a list of users
-  br
   ul
     each profile in users
       li
-        a(href='/')= profile.username
+        a(href='/'+profile.username)= profile.username
   br
   include login
