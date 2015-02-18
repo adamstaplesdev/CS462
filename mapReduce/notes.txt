@@ -1,0 +1,6 @@
+My own mapper/reducer stats:
+Time to run:  4 seconds
+Number of found words in Sherlock Holmes: 8052
+
+EMR stats:
+Time to run: 10 minutes

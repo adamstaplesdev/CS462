@@ -1,0 +1,35 @@
+Lab 4: MapReduce Answers:						Richard Adam Staples
+
+1)	Time to run the EMR Word Count example: 				10 minutes
+	Time to run the command line mapper.py and reducer.py: 	4 seconds
+	Why the command line seems so much faster:
+		The Amazon EMR system sets up the instances and Hadoop cluster
+		software, intending for it to process large and intense amounts of data.
+		For such a small and simple task as counting words in a small document
+		(or collection of documents), the overhead to create the Hadoop cluster
+		is highly inefficient and rather ridiculous.  The command line uses the
+		built in unix pipes to perform the same task without the overhead, and
+		takes only 4 seconds to process a large document.
+
+2)	The code for mapper.py and reducer.py are included with this document.
+
+3)	I ran my mapper.py and reducer.py on "The Return of Sherlock Holmes" by
+	Arthur Conan Doyle.  The final output file did not contain any of the
+	words listed in "stop-words.txt" (which I double checked by hand), and
+	included a total of 8052 unique words, each with varying word counts.
+	The full analysis took a total of only about 4 seconds.
+	
+	Why I got the results that I did: The high number of unique words results from
+	both the length of the book and the highly descriptive and scientific
+	nature of the language used in the original Sherlock Holmes series. The list of
+	words was sorted, as expected from the modification of the original mapper and
+	reducer scripts.
+	The very short (4 second) runtime can be explained by the standard behavior
+	of the unix pipe operator.  As explained in class, the output of one operation
+	is simultaneously streamed to the input of the next operation. This allowed
+	"cat", mapper.py and reducer.py to run nearly in parallel.  The only bottleneck
+	in the system was the sorting of the words in mapper.py before they were passed
+	to reducer.py.  The sorting forced all of the input from "cat" to be read and
+	processed before any output could be sent to reducer.py.  However, since IO is
+	the most expensive operation, each word output by mapper.py could be simultaneously
+	processed by reducer.py, greatly increasing the speed of the operation.

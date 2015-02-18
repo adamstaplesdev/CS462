@@ -17,6 +17,7 @@ def main(argv):
   try:
     while line:
       for word in pattern.findall(line):
+        word = word.lower()
         if not word in stopwords:
           words.append(word.lower())
       line =  sys.stdin.readline()
