@@ -1,0 +1,53 @@
+CS 462 Lab 5 Answers:
+
+PART 1
+1) This lab uses a vector clock algorithm to create unique message IDs based on a sequence number.
+	could we replace the sequence number with a timestamp? Yes, if the full date and time were included in the timestamp
+	what are the advantages and disadvantages of such an approach?
+			Advantages: messageIDs would be more unique, and can be used to implement features such as a "timeline" display/grouping
+				of rumors. This could also give more context to the rumor, as the time of creation is known.
+			Disadvantages: It takes much longer to determine which messages to propagate.  It is also very difficult to
+				determine if a message is missing from the sequence, as there could be large gaps in time between one message and the
+				next. This could lead to nodes which do not received all rumors.
+2) Are the chat messages in order? No
+	Why or why not? Because my storage method for messages isn't linear, it simply maps messageIDs to messages, in no particular order.
+	If not, what could you do to fix this? Store the messages in a sorted map, sorting by the messageID, which would order it incrementally.
+3) How did you avoid looping (sending messages back to someone who already has it)? I made sure that I only sent rumors with sequence
+			numbers higher than had already been seen by that particular user (in both "want" and propogation).
+	Why was the unique ID helpful? It allowed me to track which users had seen which messages already, so that the same message was never
+			sent to the same user twice.
+4) Why would a UUID be better than a long random number for creating the origin ID?
+			A long random number has a high chance of being locally unique, however it is much more likely to conflict with the IDs of
+			new users added to the system from outside.  As the number of users grow, the long random number may encounter more and
+			more conflicts.  However, a UUID is algorithmically designed to be universally unique from all other users in the world,
+			preventing any conflicts.
+5) The propagation algorithm sleeps for n seconds between each iteration. What are the trade-offs between a low and high value for n.
+			A low value for n results in the node using less processor power and bandwidth, however it also means that known messages
+			will propagate much more slowly accross the system.  A higher value of n results in much higher use of processing power and bandwidth, and if set too high may cause the server to become less responsive to get and post events.  However, a higher
+			value of n also results in known messages propagating much faster across all nodes in the system, bringing greater consistency.
+
+PART 2
+1) Did new messages eventually end on all the nodes that were connected? Yes, although depending on the value of n it could take a while.
+2) Were the messages displayed in the same order on each node? No
+	Why or why not? For the same reason as stated in PART 1 question 2... the messages aren't sorted, and since different nodes propogate
+		different messages, the messages will be sent and received in a different order in each node.  In this case, they would just appear
+		in whatever order the messages happened to be propagated to them.
+3) Why does disconnecting a node from the network temporarily not result in gaps in the messages seen at that node?
+		The way the storage is set up, each node keeps track of the "last seen" messages from known peers.  Disconnecting/turning off
+		the node temporarily persists this to memory, and then loads it back in on startup.  Since all messages sent from a node have a
+		sequence number, anything newer than what is in the "last seen" storage would simply have a higher sequence number.
+		When the node wakes up, sending a "want" request to any of the usual peers re-starts the cycle, and the peer will send any rumors
+		which have a higher sequence number than those that appear in the "want" request.
+4) Describe, in a paragraph or two, how you could use the basic scheme implemented here to add failure detection to the system using a
+	reachability table.
+		If each node stored a simple reachability table to all known nodes, if an attempt to contact a node ever failed, it would be logged
+		in the table.  The table could then be propogated as extra information in a "Want" request, or potentially in a separate type of message.
+		Whenever a node desired to send a message to another node, it would first have to check the reachability of that endpoint.  If, in the
+		reachability table, two or more nodes had failed to reach the endpoint, then the node could be considered dead.
+		The data in the table could also be marked with timestamps.  If there is a failure in the table which is older than a success, the node
+		may still be alive, and can be sent a request.  This would prevent small errors from accidentally cutting off a node that is still alive.
+5) Describe how you would use the system built in this lab to disseminate Foursquare checkin data so that a group of people could know where the
+	others are based on their Foursquare checkins.
+		Users in the system, which are associated with unique IDs, could treat each Foursquare checkin as a "rumor".  Whenever a checking occurs,
+		the checkin would be propagated to known peers.  As long as the group consists of only authorized friends, this would allow any user in
+		the group to see the list of recent check-ins by every other member of the group.
