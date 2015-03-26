@@ -3,3 +3,15 @@ extends layout
 block content
   h1= title
   p Welcome to #{title}
+  h3 Messages
+  - for(var key in messages)
+  - {
+  -  if(messages.hasOwnProperty(key))
+  -  {
+  -    var messageid = messages[key].Rumor.MessageID;
+  -    var sender = messages[key].Rumor.Originator;
+  -    var content = messages[key].Rumor.Text;
+  -    var endpoint = messages[key].EndPoint;
+  p #{content} / #{sender} / #{content} / endpoint
+  -  }
+  - }

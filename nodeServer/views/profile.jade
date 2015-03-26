@@ -19,14 +19,29 @@ block content
             li Name: #{profile.name}
             li Username: #{profile.username}
             li Email: #{profile.email}
-            li Foursquare Username: #{profile.fsqusername}
+          p Enter a message:
+          form(method='post' action='/'+user.username})
+            fieldset
+              legend Message:
+              p
+                textarea(name="message[content]")
+      input(type="submit")
+          h3 Known rumors:
+          each message in profile.messages
+            p #{message.Rumor.Text}
         else
           h3 Basic profile for #{profile.username}
           ul
             li Name: #{profile.username}
+          h3 Known rumors:
+          each message in profile.messages
+            p #{message.Rumor.Text}   
       else
         h3 Basic profile for #{profile.username}
         ul
           li Name: #{profile.username}
+        h3 Known rumors:
+        each message in profile.messages
+          p #{message.Rumor.Text}
   br
   include login

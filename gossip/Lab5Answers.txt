@@ -1,4 +1,4 @@
-CS 462 Lab 5 Answers:
+CS 462 Lab 5 Answers - Richard Adam Staples
 
 PART 1
 1) This lab uses a vector clock algorithm to create unique message IDs based on a sequence number.
@@ -23,7 +23,8 @@ PART 1
 			preventing any conflicts.
 5) The propagation algorithm sleeps for n seconds between each iteration. What are the trade-offs between a low and high value for n.
 			A low value for n results in the node using less processor power and bandwidth, however it also means that known messages
-			will propagate much more slowly accross the system.  A higher value of n results in much higher use of processing power and bandwidth, and if set too high may cause the server to become less responsive to get and post events.  However, a higher
+			will propagate much more slowly accross the system.  A higher value of n results in much higher use of processing power and
+			bandwidth, and if set too high may cause the server to become less responsive to get and post events.  However, a higher
 			value of n also results in known messages propagating much faster across all nodes in the system, bringing greater consistency.
 
 PART 2

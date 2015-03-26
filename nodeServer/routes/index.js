@@ -1,11 +1,22 @@
 var express = require('express');
 var router = express.Router();
 var fs = require('fs');
+var uuid = require('node-uuid');
+
+function httpGet(theUrl)
+{
+    var xmlHttp = null;
+
+    xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", theUrl, false );
+    xmlHttp.send( null );
+    return xmlHttp.responseText;
+}
 
 router.all('/', index);
 
 function index(req, res) {
-  res.render('index', { title: 'Adam Staples 4Square App',
+  res.render('index', { title: 'Adam Staples Gossip App',
                         user: req.session.user,
                         users: JSON.parse(fs.readFileSync(__dirname + '/profiles.js')).users});
 }
@@ -34,6 +45,9 @@ router.route('/login')
 router.route('/register')
   .post(function register(req, res) {
     var newuser = req.body.user;
+    newuser.userid = uuid.v4();
+    newuser.messages = [];
+
     console.log(req.body.user);
     console.log('registering new user');
     var db = JSON.parse(fs.readFileSync(__dirname + '/profiles.js'));
@@ -53,10 +67,22 @@ router.route('/register')
 router.route('/:username')
   .get(function profile(req, res){
     console.log(req.params.username);
-    res.render('profile', { title: 'Adam Staples 4Square App',
+    res.render('profile', { title: 'Adam Staples Gossip App',
                         pathUsername: req.params.username,
                         user: req.session.user,
                         users: JSON.parse(fs.readFileSync(__dirname + '/profiles.js')).users});
+  })
+  .post(function interaction(req, res){
+    //THIS FUNCTION NEEDS TO BE ABLE TO PROCESS RUMORS, WANTS AND NEW MESSAGES FROM A FORM
+    console.log(req.params.username);
+    /* necessary format:
+    {"Rumor" : {"MessageID": "ABCD-1234-ABCD-1234-ABCD-1234:5" ,
+                "Originator": "Phil",
+                "Text": "Hello World!"
+                },
+     "EndPoint": "https://example.com/gossip/13244"
+    }
+    */
   });
 
 
